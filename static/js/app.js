@@ -3,9 +3,45 @@
 // "samples":[{"id":"940", otu_ids:[], otu_labels:[]},...]}
 
 // Fetch the JSON data and console log it
-d3.json("data/samples.json").then(function(data) {
-    console.log(data);
+d3.json("data/samples.json").then(function(dataSamples) {
+    // log into console to check the array size
+    console.log(dataSamples);
+    console.log(dataSamples["names"]);
+    let uniqueNames=dataSamples["names"].filter((item, i, ar) => ar.indexOf(item) === i);
+    // make sure every object is unique in the dataset
+    console.log(uniqueNames);
+    // apppend the subject id into the dropdown menu
+    uniqueNames.forEach(name => d3.select("#selDataset").append("option").text(name));
+    d3.select("#selDataset").on("change", updatePage);
+
+
+    function updatePage() {
+      // get the Test Subject ID no from the dropdown menu
+      let chooseId=d3.select("#selDataset").property("value");
+      console.log(chooseId);
+
+      // match the id with metadata
+      d3.select("#sample-metadata").html("");
+      let chooseMeta=dataSamples['metadata'].filter(sampleInfo =>sampleInfo["id"]==chooseId);
+      console.log(chooseMeta[0]);
+
+      // output the Demographic Info
+      chooseMeta.forEach(demoInfo=> {
+        Object.entries(demoInfo).forEach(([key,value])=> {
+          d3.select("#sample-metadata").append("p").text(`${key}: ${value}`);
+        })
+      });
+
+      // get the top 10 OTUs
+      let chooseOtus=dataSamples['samples'].filter(otu => otu["id"]==chooseId);
+      console.log(chooseOtus[0]);
+    };
+    
+  
+  
   });
+
+
 
 // // Initializes the page with a default plot
 // function init() {
