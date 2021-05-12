@@ -29,7 +29,6 @@ function updatePage() {
       let selectedOtus=dataSamples['samples'].filter(otu => otu["id"]==selectedId);
       // store id, value, and labels to an array
       let otuIds=selectedOtus[0].otu_ids;
-      console.log(otuIds.map(num=>`#${num.toString(16)}`));
       let sampleValues=selectedOtus[0].sample_values;
       let otuLabels=selectedOtus[0].otu_labels;
       let selectedList=otuIds.map((a,i)=>[a,sampleValues[i],otuLabels[i]]);
@@ -69,6 +68,50 @@ function updatePage() {
           showlegend: false
         };
       Plotly.newPlot('bubble', [trace1], layout);
+      //--------------------------create the guage chart-------------------------------Bonus Part
+      var trace2={
+            value: selectedMeta[0].wfreq,
+            title: { text: "Scrubs per Week" , font: { size: 20 }},
+            type: "indicator",
+            text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+            gauge: {
+                axis: { range: [null, 9] },
+                steps: [
+                    { range: [0,1], color: "#fff"},
+                    { range: [1,2], color:'#f3cec9'},
+                    { range: [2,3], color: '#e7a4b6'},
+                    { range: [3,4], color: '#cd7eaf'},
+                    { range: [4,5], color: '#a262a9'},
+                    { range: [5,6], color: '#6f4d96'},
+                    { range: [6,7], color: '#3d3b72'},
+                    { range: [7,8], color: '#182844'},
+                    { range: [8,9], color: '#000000'}
+              ]},
+            mode: "gauge"
+        };      
+        // function gaugePointer(value){
+
+        //   var degrees = 180 - value,
+        //    radius = .5;
+        //   var radians = degrees * Math.PI / 180;
+        //   var x = radius * Math.cos(radians);
+        //   var y = radius * Math.sin(radians);
+          
+        //   // Path: may have to change to create a better triangle
+        //   var mainPath = 'M -.0 -0.035 L .0 0.035 L ',
+        //   pathX = String(x),
+        //   space = ’ ‘,
+        //   pathY = String(y),
+        //   pathEnd = ’ Z’;
+        //   var path = mainPath.concat(pathX,space,pathY,pathEnd);
+          
+        //   return path;
+        //   }
+        var layout = {
+            title: 'Belly Button Washing Frequency',
+            font: {size: 16}
+        };
+      Plotly.newPlot('gauge', [trace2],layout);
   });
 };
 
