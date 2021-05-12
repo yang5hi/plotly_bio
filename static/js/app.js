@@ -42,6 +42,12 @@ function updatePage() {
           x: sortedList.map(a=>a[1]).reverse(),
           y: sortedList.map(a=>`OTU#${a[0]} `).reverse(),
           text: sortedList.map(a=>a[2]).reverse(),
+          marker: {
+            color: '#C8A2C8',
+            line: {
+                width: 2.5
+            }
+        },
           orientation: 'h'
       }];
       var layout = {
