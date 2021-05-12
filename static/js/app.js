@@ -21,7 +21,7 @@ function updatePage() {
       // output the Demographic Info to DOM
       selectedMeta.forEach(demoInfo=> {
           Object.entries(demoInfo).forEach(([key,value])=> {
-              d3.select("#sample-metadata").append("p").text(`${key}: ${value}`);
+              d3.select("#sample-metadata").append("p").append("strong").text(`${key}: ${value}`);
             })
       });
       //--------------------------create the horizontal bar chart-------------------------------
@@ -29,6 +29,7 @@ function updatePage() {
       let selectedOtus=dataSamples['samples'].filter(otu => otu["id"]==selectedId);
       // store id, value, and labels to an array
       let otuIds=selectedOtus[0].otu_ids;
+      console.log(otuIds.map(num=>`#${num.toString(16)}`));
       let sampleValues=selectedOtus[0].sample_values;
       let otuLabels=selectedOtus[0].otu_labels;
       let selectedList=otuIds.map((a,i)=>[a,sampleValues[i],otuLabels[i]]);
@@ -40,13 +41,18 @@ function updatePage() {
       var data = [{
           type: 'bar',
           x: sortedList.map(a=>a[1]).reverse(),
-          y: sortedList.map(a=>`OTU ${a[0]}`).reverse(),
+          y: sortedList.map(a=>`OTU#${a[0]} `).reverse(),
           text: sortedList.map(a=>a[2]).reverse(),
           orientation: 'h'
       }];
-      Plotly.newPlot('bar', data);
+      var layout = {
+        title: `top 10 OTUs found in test subject # ${selectedId}`,
+        xaxis: {title: 'OTU Values'},
+        showlegend: false
+      };
+      Plotly.newPlot('bar', data, layout);
     //------------------------------create bubble chart-----------------------------------------------
-      var trace1 = [{
+      var trace1 = {
           x: otuIds,
           y: sampleValues,
           text: selectedList,
@@ -55,12 +61,14 @@ function updatePage() {
               color: otuIds,
               size: sampleValues
           }
-        }];
+        };
       var layout = {
-          xaxis: {title: 'OTU ID'},
+          title: `all OTUs found in test subject # ${selectedId}`,
+          xaxis: {title: 'OTU ID Number'},
+          yaxis: {title: 'OTU Values'},
           showlegend: false
         };
-      Plotly.newPlot('bubble', trace1, layout);
+      Plotly.newPlot('bubble', [trace1], layout);
   });
 };
 
