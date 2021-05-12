@@ -1,7 +1,7 @@
 # Plot.ly - Belly Button Biodiversity
 
 The final dashboard is shown below:
-![sample_page](images/sample_page.png)
+![sample_page](image/sample_page.png)
 
 I built an interactive dashboard to explore the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/), which catalogs the microbes that colonize human navels.
 
