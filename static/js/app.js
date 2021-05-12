@@ -40,7 +40,7 @@ function updatePage() {
       var data = [{
           type: 'bar',
           x: sortedList.map(a=>a[1]).reverse(),
-          y: sortedList.map(a=>`OTU#${a[0]} `).reverse(),
+          y: sortedList.map(a=>`OTU${a[0]} `).reverse(),
           text: sortedList.map(a=>a[2]).reverse(),
           marker: {
             color: '#C8A2C8',
@@ -51,8 +51,9 @@ function updatePage() {
           orientation: 'h'
       }];
       var layout = {
-        title: `top 10 OTUs found in test subject # ${selectedId}`,
+        title: `top 10 OTUs found in test subject ${selectedId}`,
         xaxis: {title: 'OTU Values'},
+        font: {size: 14},
         showlegend: false
       };
       Plotly.newPlot('bar', data, layout);
@@ -68,7 +69,8 @@ function updatePage() {
           }
         };
       var layout = {
-          title: `all OTUs found in test subject # ${selectedId}`,
+          title: `all OTUs found in test subject ${selectedId}`,
+          font: {size: 14},
           xaxis: {title: 'OTU ID Number'},
           yaxis: {title: 'OTU Values'},
           showlegend: false
