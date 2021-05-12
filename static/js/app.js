@@ -71,47 +71,30 @@ function updatePage() {
       //--------------------------create the guage chart-------------------------------Bonus Part
       var trace2={
             value: selectedMeta[0].wfreq,
-            title: { text: "Scrubs per Week" , font: { size: 20 }},
+            domain: { x: [0, 1], y: [0, 1] },
+            title: { text: "Scrubs per Week" },
             type: "indicator",
-            text: ['0-1','1-2','2-3','3-4','4-5','5-6','6-7','7-8','8-9'],
+            margin: { t: 0, b: 0 },
             gauge: {
                 axis: { range: [null, 9] },
-                steps: [
-                    { range: [0,1], color: "#fff"},
-                    { range: [1,2], color:'#f3cec9'},
-                    { range: [2,3], color: '#e7a4b6'},
-                    { range: [3,4], color: '#cd7eaf'},
-                    { range: [4,5], color: '#a262a9'},
-                    { range: [5,6], color: '#6f4d96'},
-                    { range: [6,7], color: '#3d3b72'},
-                    { range: [7,8], color: '#182844'},
-                    { range: [8,9], color: '#000000'}
-              ]},
-            mode: "gauge"
+                bar: { color: "darkblue" },
+                steps: [{ range: [0,1], color: '#ffffff'},
+                        { range: [1,2], color: '#f3cec9'},
+                        { range: [2,3], color: '#e7a4b6'},
+                        { range: [3,4], color: '#cd7eaf'},
+                        { range: [4,5], color: '#a262a9'},
+                        { range: [5,6], color: '#6f4d96'},
+                        { range: [6,7], color: '#3d3b72'},
+                        { range: [7,8], color: '#182844'},
+                        { range: [8,9], color: '#000000'}
+                ]},
+            mode: "gauge+number"
         };      
-        // function gaugePointer(value){
-
-        //   var degrees = 180 - value,
-        //    radius = .5;
-        //   var radians = degrees * Math.PI / 180;
-        //   var x = radius * Math.cos(radians);
-        //   var y = radius * Math.sin(radians);
-          
-        //   // Path: may have to change to create a better triangle
-        //   var mainPath = 'M -.0 -0.035 L .0 0.035 L ',
-        //   pathX = String(x),
-        //   space = ’ ‘,
-        //   pathY = String(y),
-        //   pathEnd = ’ Z’;
-        //   var path = mainPath.concat(pathX,space,pathY,pathEnd);
-          
-        //   return path;
-        //   }
         var layout = {
             title: 'Belly Button Washing Frequency',
-            font: {size: 16}
+            font: {size: 20}
         };
-      Plotly.newPlot('gauge', [trace2],layout);
+      Plotly.newPlot('gauge', [trace2] , layout);
   });
 };
 
