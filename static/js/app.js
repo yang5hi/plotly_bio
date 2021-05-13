@@ -1,6 +1,7 @@
 // Initialize the page
 UpdatePage();
-
+// Update the page
+d3.select("#selDataset").on("change", UpdatePage);
 // Function update the page content
 function UpdatePage() {
   d3.json("data/samples.json").then(function(dataSamples) {
@@ -42,6 +43,21 @@ function UpdatePage() {
       PlotBubble (otuIds, sampleValues,selectedList, selectedId);  
       //create the gauge chart(Bonus Part)
       PlotGauge (selectedMeta[0].wfreq);
+      // create a pie chart based on top 10 OTUs
+      var dataPie=[{
+          type:'pie',
+          marker: {
+            colors: ['rgb(56, 75, 126)', 'rgb(18, 36, 37)', 'rgb(34, 53, 101)', 'rgb(36, 55, 57)', 'rgb(6, 4, 4)',
+            'rgb(177, 127, 38)', 'rgb(205, 152, 36)', 'rgb(151, 179, 100)', 'rgb(129, 180, 179)', 'rgb(124, 103, 37)']
+          },
+          values:sortedList.map(a=>a[1]),
+          labels:sortedList.map(a=>`OTU${a[0]} `)
+      }];
+      var layout = {
+        title: `top 10 OTUs in test subject ${selectedId}`,
+        font: {size: 14}
+    };
+      Plotly.newPlot('pie',dataPie,layout);
   });
 };
 
@@ -113,5 +129,3 @@ function PlotGauge (inNum) {
         };
   Plotly.newPlot('gauge', [trace2] , layout);
 };
-
-d3.select("#selDataset").on("change", UpdatePage);
