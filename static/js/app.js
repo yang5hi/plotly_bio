@@ -24,7 +24,6 @@ function updatePage() {
               d3.select("#sample-metadata").append("p").append("strong").text(`${key}: ${value}`);
             })
       });
-      //--------------------------create the horizontal bar chart-------------------------------
       // select the sample otu data based on id
       let selectedOtus=dataSamples['samples'].filter(otu => otu["id"]==selectedId);
       // store id, value, and labels to an array
@@ -36,46 +35,11 @@ function updatePage() {
       // get the top 10 OTUs 
       sortedList=selectedList.sort((a,b)=>(b[1]-a[1])).slice(0,10);
       console.log(sortedList); // validate the data
-      // bar graph
-      var data = [{
-          type: 'bar',
-          x: sortedList.map(a=>a[1]).reverse(),
-          y: sortedList.map(a=>`OTU${a[0]} `).reverse(),
-          text: sortedList.map(a=>a[2]).reverse(),
-          marker: {
-            color: '#C8A2C8',
-            line: {
-                width: 2.5
-            }
-        },
-          orientation: 'h'
-      }];
-      var layout = {
-        title: `top 10 OTUs found in test subject ${selectedId}`,
-        xaxis: {title: 'OTU Values'},
-        font: {size: 14},
-        showlegend: false
-      };
-      Plotly.newPlot('bar', data, layout);
-    //------------------------------create bubble chart-----------------------------------------------
-      var trace1 = {
-          x: otuIds,
-          y: sampleValues,
-          text: selectedList,
-          mode: 'markers',
-          marker: {
-              color: otuIds,
-              size: sampleValues
-          }
-        };
-      var layout = {
-          title: `all OTUs found in test subject ${selectedId}`,
-          font: {size: 14},
-          xaxis: {title: 'OTU ID Number'},
-          yaxis: {title: 'OTU Values'},
-          showlegend: false
-        };
-      Plotly.newPlot('bubble', [trace1], layout);
+      //create the horizontal bar chart
+      PlotBar(sortedList, selectedId);
+      //----create bubble chart---------------------
+      PlotBubble (otuIds, sampleValues,selectedList, selectedId);
+      
       //--------------------------create the guage chart-------------------------------Bonus Part
       var trace2={
             value: selectedMeta[0].wfreq,
@@ -106,6 +70,51 @@ function updatePage() {
   });
 };
 
+function PlotBar (sortedList, selectedId) {
+    // bar graph
+    var data = [{
+        type: 'bar',
+        x: sortedList.map(a=>a[1]).reverse(),
+        y: sortedList.map(a=>`OTU${a[0]} `).reverse(),
+        text: sortedList.map(a=>a[2]).reverse(),
+        marker: {
+          color: '#C8A2C8',
+          line: {
+              width: 2.5
+          }
+      },
+        orientation: 'h'
+    }];
+    var layout = {
+      title: `top 10 OTUs found in test subject ${selectedId}`,
+      xaxis: {title: 'OTU Values'},
+      font: {size: 14},
+      showlegend: false
+    };
+    Plotly.newPlot('bar', data, layout);
+};
+
+function PlotBubble(otuIds, sampleValues,selectedList, selectedId){
+  //bubble graph
+  var trace1 = {
+      x: otuIds,
+      y: sampleValues,
+      text: selectedList,
+      mode: 'markers',
+      marker: {
+          color: otuIds,
+          size: sampleValues
+      }
+    };
+  var layout = {
+      title: `all OTUs found in test subject ${selectedId}`,
+      font: {size: 14},
+      xaxis: {title: 'OTU ID Number'},
+      yaxis: {title: 'OTU Values'},
+      showlegend: false
+    };
+  Plotly.newPlot('bubble', [trace1], layout);
+};
 d3.select("#selDataset").on("change", updatePage);
 
 init();
