@@ -5,8 +5,8 @@ I built an interactive dashboard to explore the [Belly Button Biodiversity datas
 The dataset reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.
 
 ## Plotly
-- Bar Plot to use the D3 library to read in `samples.json`. and create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
-- Gauge Chart to plot the weekly washing frequency of the individual
+- Bar and Pie plot to use the D3 library to read in `samples.json`. and create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
+- Two Gauge Chart to plot the weekly washing frequency of the individual
 - Create a bubble chart that displays each sample.
 ## D3
 - Display the sample metadata (individual's demographic information.)
